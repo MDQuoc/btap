@@ -29,6 +29,15 @@
         margin-bottom: 15px;
       }
 
+      /* Search input styles */
+      .search-input {
+        width: 93%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 0px;
+      }
+
       .sidebar ul {
         list-style: none;
         padding: 0;
@@ -106,7 +115,7 @@
         padding: 10px 15px;
         cursor: pointer;
         font-size: 16px;
-        margin-top: 120%;
+        margin-top: 100%;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin-left: 50px;
       }
@@ -120,7 +129,13 @@
     <!-- Sidebar for Lessons List -->
     <div class="sidebar">
       <h3>Lessons</h3>
-      <ul>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search lessons..."
+        onkeyup="filterLessons()"
+      />
+      <ul id="lessonList">
         <li onclick="showLesson('introduction')" id="lesson1">1. Chapter 1</li>
         <li onclick="showLesson('setup')" id="lesson2">2. Chapter 2</li>
         <li onclick="showLesson('djangoBasic')" id="lesson3">3. Chapter 3</li>
@@ -193,6 +208,26 @@
       // Function to go back to index.html
       function goBack() {
         window.location.href = "index.html"; // Quay về trang index
+      }
+
+      // Function to filter lessons based on search input
+      function filterLessons() {
+        const input = document.querySelector(".search-input");
+        const filter = input.value.toLowerCase();
+        const lessonList = document.getElementById("lessonList");
+        const lessons = lessonList.getElementsByTagName("li");
+
+        // Loop through all lessons and hide those that don't match the search query
+        for (let i = 0; i < lessons.length; i++) {
+          const lesson = lessons[i];
+          const txtValue = lesson.textContent || lesson.innerText;
+
+          if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            lesson.style.display = ""; // Show the lesson
+          } else {
+            lesson.style.display = "none"; // Hide the lesson
+          }
+        }
       }
     </script>
   </body>
